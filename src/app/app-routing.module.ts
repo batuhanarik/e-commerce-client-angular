@@ -4,6 +4,7 @@ import { LayoutComponent } from './admin/layout/layout.component';
 import { CustomerComponent } from './admin/components/customer/customer.component';
 import { DashboardComponent } from './admin/components/dashboard/dashboard.component';
 import { HomeComponent } from './ui/components/home/home.component';
+import { AppComponent } from './app.component';
 
 const routes: Routes = [
   {
