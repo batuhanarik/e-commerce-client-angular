@@ -4,7 +4,7 @@ import {
   ToastrMessageType,
   ToastrPosition,
 } from './services/ui/custom-toastr.service';
-
+import * as $ from 'jquery';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,9 +13,10 @@ import {
 export class AppComponent {
   title = 'e-commerce-client-angular';
   constructor(private toastr: CustomToastrService) {
-    toastr.message('Merhaba', 'Batuhan', {
-      messageType: ToastrMessageType.Success,
-      position: ToastrPosition.TopCenter,
-    });
+    // toastr.message('Merhaba', 'Batuhan', {
+    //   messageType: ToastrMessageType.Success,
+    //   position: ToastrPosition.TopCenter,
+    // });
+    $.get('https://localhost:7086/api/products');
   }
 }

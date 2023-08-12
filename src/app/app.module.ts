@@ -7,19 +7,25 @@ import { LayoutModule } from './admin/layout/layout.module';
 import { AdminModule } from './admin/admin.module';
 import { UiModule } from './ui/ui.module';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     LayoutModule,
     BrowserModule,
+    HttpClientModule,
     BrowserAnimationsModule,
+    NgxSpinnerModule,
     ToastrModule.forRoot(),
     AppRoutingModule,
     AdminModule,
     UiModule,
   ],
-  providers: [],
+  providers: [
+    { provide: 'baseUrl', useValue: 'https://localhost:7086/api', multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
