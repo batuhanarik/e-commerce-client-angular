@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
 import { Create_Product } from 'src/app/contracts/create_product';
 import {
+  AlertifyOptions,
   AlertifyService,
   MessageType,
   Position,
@@ -15,6 +16,7 @@ import { ProductService } from 'src/app/services/common/product.service';
   styleUrls: ['./create.component.scss'],
 })
 export class CreateComponent extends BaseComponent {
+  @Output() createdProduct: EventEmitter<Create_Product> = new EventEmitter();
   constructor(
     spinner: NgxSpinnerService,
     private productService: ProductService,
@@ -34,13 +36,36 @@ export class CreateComponent extends BaseComponent {
     createProduct.stock = parseInt(stock.value);
     createProduct.price = parseFloat(price.value);
 
-    this.productService.create(createProduct, () => {
-      this.hideSpinner(SpinnerType.BallAtom);
-      this.alertify.message('Ürün başarıyla eklenmiştir.', {
+    if (!name.value) {
+      this.alertify.message('Lütfen ürün adını giriniz.', {
         dismissOthers: false,
-        messageType: MessageType.Success,
-        position: Position.TopRight,
+        messageType: MessageType.Warning,
+        position: Position.BottomRight,
       });
-    });
+      return;
+    }
+    if (parseInt(stock.value) < 0) {
+      this.alertify.message('Ürün stoğunu 0 veya daha büyük giriniz.', {
+        dismissOthers: false,
+        messageType: MessageType.Warning,
+        position: Position.BottomRight,
+      });
+    }
+
+    this.productService.create(
+      createProduct,
+      () => {
+        this.hideSpinner(SpinnerType.BallAtom);
+        this.alertify.message('Ürün başarıyla eklenmiştir.', {
+          dismissOthers: false,
+          messageType: MessageType.Success,
+          position: Position.TopRight,
+        });
+        this.createdProduct.emit(createProduct);
+      },
+      (errorMessage) => {
+        this.alertify.message(errorMessage, { messageType: MessageType.Error });
+      }
+    );
   }
 }
