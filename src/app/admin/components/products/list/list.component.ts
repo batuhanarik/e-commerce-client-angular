@@ -14,6 +14,7 @@ import {
 } from 'src/app/services/admin/alertify.service';
 import { ProductService } from 'src/app/services/common/product.service';
 
+declare var $ : any;
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -27,6 +28,8 @@ export class ListComponent extends BaseComponent {
     'price',
     'createdDate',
     'updatedDate',
+    'edit',
+    'delete'
   ];
   dataSource: MatTableDataSource<List_Product> = null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -70,4 +73,11 @@ export class ListComponent extends BaseComponent {
   async pageChanged() {
     await this.getProducts();
   }
+
+  // delete(id,event:any){
+  //   const img:HTMLImageElement=event.srcElement;
+  //   $(img.parentElement.parentElement).fadeOut(2000);
+  // }
+
+  
 }
